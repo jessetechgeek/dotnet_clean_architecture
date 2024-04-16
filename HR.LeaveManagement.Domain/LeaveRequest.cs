@@ -21,6 +21,6 @@ public class LeaveRequest : BaseEntity
 
     public bool cancelled { get; set; }
 
-    public string RequestingEmployeeId { get; set; }= string.Empty;
+    public string RequestingEmployeeId { get; set; } = string.Empty;
 
 }

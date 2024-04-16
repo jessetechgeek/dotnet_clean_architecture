@@ -1,6 +1,8 @@
-﻿namespace HR.LeaveManagement.Domain;
+﻿using HR.LeaveManagement.Domain.Common;
 
-public class LeaveType
+namespace HR.LeaveManagement.Domain;
+
+public class LeaveType : BaseEntity
 {
     public string Name { get; set; } = string.Empty;
 
