@@ -15,7 +15,7 @@ public static class PersistenceServiceRegistration
         services.AddDbContext<HrDatabaseContext>(options =>
         {
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 27));
-            options.UseMySql("server=localhost;user=jesse;password=Jesse123;database=dotnet_class", serverVersion);
+            options.UseMySql(configuration.GetConnectionString("HrDatabaseConnectionString"), serverVersion);
         });
 
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
