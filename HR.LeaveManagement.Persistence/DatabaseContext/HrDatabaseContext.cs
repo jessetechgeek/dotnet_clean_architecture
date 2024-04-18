@@ -24,7 +24,7 @@ namespace HR.LeaveManagement.Persistence.DatabaseContext
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(HrDatabaseContext).Assembly);
 
-            modelBuilder.ApplyConfiguration(new LeaveTypeConfiguration());
+            //modelBuilder.ApplyConfiguration(new LeaveTypeConfiguration());
 
             //modelBuilder.Entity<LeaveType>().HasData(
             //    new LeaveType
