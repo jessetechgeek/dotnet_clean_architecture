@@ -4,6 +4,7 @@ using HR.LeaveManagement.Persistence.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HR.LeaveManagement.Persistence.Migrations
 {
     [DbContext(typeof(HrDatabaseContext))]
-    partial class HrDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240421143441_AddedAuditFields")]
+    partial class AddedAuditFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
