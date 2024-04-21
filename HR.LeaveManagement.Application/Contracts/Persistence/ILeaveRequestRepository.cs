@@ -6,8 +6,8 @@ public interface ILeaveRequestRepository : IGenericRepository<LeaveRequest>
 {
     Task<LeaveRequest> GetLeaveRequestWithDetails(int id);
 
-    Task<IReadOnlyList<LeaveRequest>> GetLeaveRequestsWithDetails();
+    Task<List<LeaveRequest>> GetLeaveRequestsWithDetails();
 
-    Task<IReadOnlyList<LeaveRequest>> GetLeaveRequestsWithDetails(string userId);
+    Task<List<LeaveRequest>> GetLeaveRequestsWithDetails(string userId);
 
 }

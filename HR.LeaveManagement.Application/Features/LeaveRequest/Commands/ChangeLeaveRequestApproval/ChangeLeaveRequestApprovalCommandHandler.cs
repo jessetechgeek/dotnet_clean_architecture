@@ -18,14 +18,21 @@ namespace HR.LeaveManagement.Application.Features.LeaveRequest.Commands.ChangeLe
         private readonly IMapper _mapper;
         private readonly ILeaveRequestRepository _leaveRequestRepository;
         private readonly ILeaveTypeRepository _leaveTypeRepository;
+        private readonly ILeaveAllocationRepository _leaveAllocationRepository;
         private readonly IEmailSender _emailSender;
         private readonly IAppLogger<ChangeLeaveRequestApprovalCommandHandler> _appLogger;
 
-        public ChangeLeaveRequestApprovalCommandHandler(IMapper mapper, ILeaveRequestRepository leaveRequestRepository, ILeaveTypeRepository leaveTypeRepository, IEmailSender emailSender, IAppLogger<ChangeLeaveRequestApprovalCommandHandler> appLogger)
+        public ChangeLeaveRequestApprovalCommandHandler(IMapper mapper,
+            ILeaveRequestRepository leaveRequestRepository,
+            ILeaveTypeRepository leaveTypeRepository,
+            ILeaveAllocationRepository leaveAllocationRepository,
+            IEmailSender emailSender,
+            IAppLogger<ChangeLeaveRequestApprovalCommandHandler> appLogger)
         {
             this._mapper = mapper;
             this._leaveRequestRepository = leaveRequestRepository;
             this._leaveTypeRepository = leaveTypeRepository;
+            this._leaveAllocationRepository = leaveAllocationRepository;
             this._emailSender = emailSender;
             this._appLogger = appLogger;
         }
@@ -41,6 +48,15 @@ namespace HR.LeaveManagement.Application.Features.LeaveRequest.Commands.ChangeLe
 
             leaveRequest.Approved = request.Approved;
             await _leaveRequestRepository.UpdateAsync(leaveRequest);
+
+            if (request.Approved)
+            {
+                int daysRequested = (int)(leaveRequest.EndDate - leaveRequest.StartDate).TotalDays;
+                var allocation = await _leaveAllocationRepository.GetUserAllocations(leaveRequest.RequestingEmployeeId, leaveRequest.LeaveTypeId);
+                allocation.NumberOfDays -= daysRequested;
+
+                await _leaveAllocationRepository.UpdateAsync(allocation);
+            }
 
             var email = new EmailMessage
             {

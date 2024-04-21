@@ -14,6 +14,7 @@ public class LeaveRequestRepository : GenericRepository<LeaveRequest>, ILeaveReq
     public async Task<IReadOnlyList<LeaveRequest>> GetLeaveRequestsWithDetails()
     {
         var leaveRequests = await _context.LeaveRequests
+            .Where(q => !string.IsNullOrEmpty(q.RequestingEmployeeId))
             .Include(x => x.LeaveType)
             .ToListAsync();
 
@@ -23,8 +24,8 @@ public class LeaveRequestRepository : GenericRepository<LeaveRequest>, ILeaveReq
     public async Task<IReadOnlyList<LeaveRequest>> GetLeaveRequestsWithDetails(string userId)
     {
         var leaveRequests = await _context.LeaveRequests
+            .Where(q => q.RequestingEmployeeId == userId)
             .Include(x => x.LeaveType)
-            .Where(x => x.RequestingEmployeeId == userId)
             .ToListAsync();
 
         return leaveRequests;
